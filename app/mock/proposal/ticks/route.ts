@@ -16,7 +16,7 @@ export const GET = async (req: Request) => {
       tick: `tick${i}`,
       tick_show: `show${i}`,
       sort: i,
-      address_count: Math.ceil(Math.random()),
+      address_count: Math.ceil(Math.random()*100),
       create_time: i,
       icon: `https://picsum.photos/seed/${i}sfa/200`,
       join: i % 2 === 0

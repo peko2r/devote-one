@@ -1,0 +1,49 @@
+:root {
+  --timeout: 0.2s;
+}
+.modal-item-enter {
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0);
+}
+.modal-item-enter-active {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+.modal-item-exit {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+.modal-item-exit-active {
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0);
+}
+
+.modal-item-enter-active,
+.modal-item-exit-active {
+  transition: all var(--timeout) linear;
+}
+.modal-item-enter-done {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+.modalContent {
+  transform-origin: center;
+}
+.modal-item-enter .modalContent {
+  opacity: 0;
+  transform: scale(0.8) translateX(-50px);
+}
+.modal-item-enter-active .modalContent {
+  opacity: 1;
+  transform: scale(1) translateX(0);
+  transition: all var(--timeout) ease-in-out;
+}
+.modal-item-exit .modalContent {
+  opacity: 1;
+  transform: scale(1) translateX(0);
+}
+.modal-item-exit-active .modalContent {
+  opacity: 0;
+  transform: scale(0.8) translateX(-50px);
+  transition: all var(--timeout) ease-in-out;
+}

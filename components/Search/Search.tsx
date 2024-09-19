@@ -6,8 +6,14 @@ import { useFocusWithin } from 'ahooks'
 import React, { useRef } from 'react'
 import { useSpace } from '@/context/SpaceContext'
 
+/**
+ * Search
+ * 搜索框组件
+ * @constructor
+ */
 const Search = () => {
   const inputRef = useRef(null)
+  // 判断是否处于焦点内
   const isFocusWithin = useFocusWithin(inputRef)
 
   const { search, handleSearch } = useSpace()

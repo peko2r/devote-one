@@ -1,8 +1,8 @@
 'use client'
-import { ENV } from '@/utils/env'
 import { useDebounce, useInfiniteScroll, useMemoizedFn } from 'ahooks'
-import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react'
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react'
 import { useUnisatWallet } from './UnisatWalletContext'
+import { getSpaceListUrl } from '@/utils/path'
 
 export type Item = {
   tick: string
@@ -15,6 +15,7 @@ export type Item = {
 }
 
 export type PageData = { items: Array<Item>; total: number; page: number }
+
 export interface Result<T> {
   list: Array<T>
   total: number
@@ -31,22 +32,20 @@ const getSpaceList = async (
 ) => {
   let response
   if (!tick && !address) {
-    response = await fetch(`${ENV.backend}/proposal/ticks?limit=${pageSize}&page=${page}`, { cache: 'no-store' })
+    response = await fetch(getSpaceListUrl(page, pageSize), { cache: 'no-store' })
   } else if (tick && !address) {
-    response = await fetch(`${ENV.backend}/proposal/ticks?limit=${pageSize}&page=${page}&tick=${tick}`, {
+    response = await fetch(getSpaceListUrl(page, pageSize, undefined, tick), {
       cache: 'no-store',
     })
   } else if (!tick && address) {
-    response = await fetch(`${ENV.backend}/proposal/ticks?limit=${pageSize}&page=${page}&address=${address}`, {
+    response = await fetch(getSpaceListUrl(page, pageSize, address, undefined), {
       cache: 'no-store',
     })
   } else {
-    response = await fetch(
-      `${ENV.backend}/proposal/ticks?limit=${pageSize}&page=${page}&tick=${tick}&address=${address}`,
-      { cache: 'no-store' },
-    )
+    response = await fetch(getSpaceListUrl(page, pageSize, address!, tick!), { cache: 'no-store' })
   }
   const res: PageData = (await response.json()).data
+  console.log('getSpaceList', res)
   const infiniteListData: Result<Item> = {
     list: res.items,
     total: res.total,

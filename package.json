@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NEXT_PUBLIC_ENV=test next dev",
+    "local": "cross-env NEXT_PUBLIC_ENV=local next dev",
     "dev:prod": "next dev",
     "build": "prettier --write . & next lint & cross-env NEXT_PUBLIC_ENV=production next build",
     "build:test": "prettier --write . & next lint & cross-env NEXT_PUBLIC_ENV=test next build",

@@ -13,7 +13,7 @@ interface MessageParams {
 
 const MessageContext = createContext<MessageParams>({
   success: NoOperation,
-  error: NoOperation,
+  error: NoOperation
 })
 
 enum MessageType {
@@ -41,9 +41,8 @@ const event = new EventEmitter()
 
 export default function MessageContextProvider(props: { children?: any }) {
   const [messages, setMessages] = useState<MessageItem[]>([])
-
   const sendFunc = useCallback((type: MessageType) => {
-    return function ({ title, desc, duration }: { title?: string; desc: string; duration: number }) {
+    return function({ title, desc, duration }: { title?: string; desc: string; duration: number }) {
       const id = num++
       const timer = window.setTimeout(() => {
         setMessages((prev) => {
@@ -95,7 +94,7 @@ const iconMap: {
 } = {
   [MessageType.Error]: Images.ICON.ERROR_SVG,
   [MessageType.Success]: Images.ICON.SUCCESS_SVG,
-  [MessageType.Loading]: Images.ICON.LOADING_SVG,
+  [MessageType.Loading]: Images.ICON.LOADING_SVG
 }
 
 const defaultTitleMap: {
@@ -103,7 +102,7 @@ const defaultTitleMap: {
 } = {
   [MessageType.Error]: 'Error',
   [MessageType.Success]: 'Successful',
-  [MessageType.Loading]: 'Loading',
+  [MessageType.Loading]: 'Loading'
 }
 
 function MessageContent(props: { messages: MessageItem[] }) {
@@ -112,7 +111,8 @@ function MessageContent(props: { messages: MessageItem[] }) {
       <TransitionGroup>
         {props.messages.map((message) => (
           <CSSTransition key={message.id} timeout={300} classNames={'message'}>
-            <div className=" w-72 h-fit mt-2 text-white text-sm px-4.5 py-3 transition-all ease-linear relative z-[99999] flex justify-start items-center border-solid border-[1px] border-[#E6E7EB] rounded-[.5rem] bg-[white]">
+            <div
+              className=" w-72 h-fit mt-2 text-white text-sm px-4.5 py-3 transition-all ease-linear relative z-[99999] flex justify-start items-center border-solid border-[1px] border-[#E6E7EB] rounded-[.5rem] bg-[white]">
               <XImage className="w-8 h-8 mr-4.5" src={iconMap[message.type]} />
               <div className={'w-0 flex-grow'}>
                 <h3 className={'text-base text-[#202020]'}>{message.title || defaultTitleMap[message.type]}</h3>

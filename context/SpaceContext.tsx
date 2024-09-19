@@ -116,8 +116,10 @@ const SpaceContext = createContext<{
 })
 
 export default function SpaceContextProvider(props: { children?: ReactNode }) {
+  //搜索字符串
   const [search, setSearch] = useState('')
   const [isMy, setIsMy] = useState(false)
+  //是否连接钱包
   const { connected, account } = useUnisatWallet()
   const [fields, setFields] = useState<{
     title: string
@@ -136,6 +138,7 @@ export default function SpaceContextProvider(props: { children?: ReactNode }) {
     end_time: JSON.parse(localStorage?.getItem('fields') || '{}')?.end_time || 0,
   })
 
+  //防抖
   const debounceValue = useDebounce(search, { wait: 500 })
   const { data, loading, loadMore, loadingMore, reload, reloadAsync, mutate } = useInfiniteScroll<Result<Item>>(
     (d) => {

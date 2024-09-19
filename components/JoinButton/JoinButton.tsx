@@ -5,6 +5,7 @@ import { useUnisatWallet } from '@/context/UnisatWalletContext'
 import { ENV } from '@/utils/env'
 import { useHover } from 'ahooks'
 import React, { useEffect, useRef, useState } from 'react'
+import { getSpaceListUrl } from '@/utils/path'
 
 type Props = {
   tick: string
@@ -16,6 +17,7 @@ type Props = {
 
 const PAGE_SIZE = 15
 
+//加入按钮
 const JoinButton = ({ tick, address, showSubTitle, changeCount, count }: Props) => {
   const { connected, active, account } = useUnisatWallet()
   const [joinStat, setJoinStat] = useState(false)
@@ -29,15 +31,13 @@ const JoinButton = ({ tick, address, showSubTitle, changeCount, count }: Props) 
   ) => {
     let response
     if (!tick && !address && !connected) {
-      response = await fetch(`${ENV.backend}/proposal/ticks?limit=${pageSize}&page=${page}`)
+      response = await fetch(getSpaceListUrl(page, pageSize))
     } else if (tick && !address && !connected) {
-      response = await fetch(`${ENV.backend}/proposal/ticks?limit=${pageSize}&page=${page}&tick=${tick}`)
+      response = await fetch(getSpaceListUrl(page, pageSize, undefined, tick))
     } else if (!tick && address && connected) {
-      response = await fetch(`${ENV.backend}/proposal/ticks?limit=${pageSize}&page=${page}&address=${address}`)
+      response = await fetch(getSpaceListUrl(page, pageSize, address, undefined))
     } else {
-      response = await fetch(
-        `${ENV.backend}/proposal/ticks?limit=${pageSize}&page=${page}&tick=${tick}&address=${address}`,
-      )
+      response = await fetch(getSpaceListUrl(page, pageSize, address!, tick!))
     }
     const res: PageData = (await response.json()).data
     const infiniteListData: Result<Item> = {
